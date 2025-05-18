@@ -1,7 +1,7 @@
 -- License: LICENSE.txt
 
 local MAJOR_VERSION = "LibActionButton-1.0-ElvUI"
-local MINOR_VERSION = 63 -- the real minor version is 124
+local MINOR_VERSION = 62 -- the real minor version is 121
 
 local LibStub = LibStub
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
@@ -143,7 +143,7 @@ local type_meta_map = {
 
 local ButtonRegistry, ActiveButtons, ActionButtons, NonActionButtons = lib.buttonRegistry, lib.activeButtons, lib.actionButtons, lib.nonActionButtons
 
-local Update, UpdateButtonState, UpdateUsable, UpdateCount, UpdateCooldown, UpdateCooldownNumberHidden, UpdateTooltip, UpdateNewAction, UpdateSpellHighlight, ClearNewActionHighlight
+local Update, UpdateButtonState, UpdateUsable, UpdateCount, UpdateCooldown, UpdateTooltip, UpdateNewAction, UpdateSpellHighlight, ClearNewActionHighlight
 local StartFlash, StopFlash, UpdateFlash, UpdateHotkeys, UpdateRangeTimer, UpdateOverlayGlow
 local UpdateFlyout, ShowGrid, HideGrid, UpdateGrid, SetupSecureSnippets, WrapOnClick
 local ShowOverlayGlow, HideOverlayGlow
@@ -214,7 +214,6 @@ local DefaultConfig = {
 	keyBoundTarget = false,
 	keyBoundClickButton = "LeftButton",
 	clickOnDown = false,
-	cooldownCount = nil, -- nil: use cvar, true/false: enable/disable
 	flyoutDirection = "UP",
 	disableCountDownNumbers = false,
 	useDrawBling = true,
@@ -572,12 +571,8 @@ function WrapOnClick(button, unwrapheader)
 			-- if this is a pickup click, disable on-down casting
 			-- it should get re-enabled in the post handler, or the OnDragStart handler, whichever occurs
 			if button ~= "Keybind" and ((self:GetAttribute("unlockedpreventdrag") and not self:GetAttribute("buttonlock")) or IsModifiedClick("PICKUPACTION")) and not self:GetAttribute("LABdisableDragNDrop") then
-				local useOnkeyDown = self:GetAttribute("useOnKeyDown")
-				if useOnkeyDown ~= false then
-					self:SetAttribute("LABToggledOnDown", true)
-					self:SetAttribute("LABToggledOnDownBackup", useOnkeyDown)
-					self:SetAttribute("useOnKeyDown", false)
-				end
+				self:CallMethod("ToggleOnDownForPickup", true)
+				self:SetAttribute("LABToggledOnDown", true)
 			end
 
 			return (button == "Keybind") and "LeftButton" or nil, format("%s|%s", tostring(type), tostring(action))
@@ -600,9 +595,8 @@ function WrapOnClick(button, unwrapheader)
 
 		-- re-enable ondown casting if needed
 		if self:GetAttribute("LABToggledOnDown") then
-			self:SetAttribute("useOnKeyDown", self:GetAttribute("LABToggledOnDownBackup"))
 			self:SetAttribute("LABToggledOnDown", nil)
-			self:SetAttribute("LABToggledOnDownBackup", nil)
+			self:CallMethod("ToggleOnDownForPickup", false)
 		end
 	]])
 end
@@ -779,7 +773,7 @@ function Generic:SetStateFromHandlerInsecure(state, kind, action)
 		if tonumber(action) then
 			action = format("item:%s", action)
 		else
-			local itemString = str_match(action, "^|c[^|]+|H(item[%d:]+)|h%[")
+			local itemString = str_match(action, "^|c%x+|H(item[%d:]+)|h%[")
 			if itemString then
 				action = itemString
 			end
@@ -1450,7 +1444,6 @@ function Generic:UpdateConfig(config)
 
 	self:SetAttribute("flyoutDirection", self.config.flyoutDirection)
 
-	UpdateCooldownNumberHidden(self)
 	UpdateTextElements(self)
 	UpdateHotkeys(self)
 	UpdateGrid(self)
@@ -1469,7 +1462,6 @@ end
 
 function InitializeEventHandler()
 	lib.eventFrame:SetScript("OnEvent", OnEvent)
-	lib.eventFrame:RegisterEvent("CVAR_UPDATE")
 	lib.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	lib.eventFrame:RegisterEvent("ACTIONBAR_SHOWGRID")
 	lib.eventFrame:RegisterEvent("ACTIONBAR_HIDEGRID")
@@ -1542,10 +1534,6 @@ function OnEvent(frame, event, arg1, ...)
 	if event == "PLAYER_LOGIN" then
 		if UseCustomFlyout then
 			DiscoverFlyoutSpells()
-		end
-	elseif event == "CVAR_UPDATE" then
-		if arg1 == "countdownForCooldowns" then
-			ForAllButtons(UpdateCooldownNumberHidden)
 		end
 	elseif event == "SPELLS_CHANGED" or event == "SPELL_FLYOUT_UPDATE" then
 		if UseCustomFlyout then
@@ -2278,16 +2266,6 @@ local function LocCooldownDone(self)
 	lib.callbacks:Fire("OnCooldownDone", button, self)
 end
 
-function UpdateCooldownNumberHidden(self)
-	local shouldBeHidden
-	if self.config.cooldownCount == nil then
-		shouldBeHidden = self.cooldown.currentCooldownType == COOLDOWN_TYPE_LOSS_OF_CONTROL or GetCVarBool("countdownForCooldowns") ~= true
-	else
-		shouldBeHidden = not self.config.cooldownCount
-	end
-	self.cooldown:SetHideCountdownNumbers(shouldBeHidden)
-end
-
 function UpdateCooldown(self)
 	local locStart, locDuration, _
 	local start, duration, enable, modRate, auraData
@@ -2328,8 +2306,8 @@ function UpdateCooldown(self)
 		if self.cooldown.currentCooldownType ~= COOLDOWN_TYPE_LOSS_OF_CONTROL then
 			self.cooldown:SetEdgeTexture("Interface\\Cooldown\\edge-LoC")
 			self.cooldown:SetSwipeColor(0.2, 0, 0)
+			self.cooldown:SetHideCountdownNumbers(true)
 			self.cooldown.currentCooldownType = COOLDOWN_TYPE_LOSS_OF_CONTROL
-			UpdateCooldownNumberHidden(self)
 		end
 
 		self.cooldown:SetScript("OnCooldownDone", LocCooldownDone)
@@ -2342,8 +2320,8 @@ function UpdateCooldown(self)
 		if self.cooldown.currentCooldownType ~= COOLDOWN_TYPE_NORMAL then
 			self.cooldown:SetEdgeTexture("Interface\\Cooldown\\edge")
 			self.cooldown:SetSwipeColor(0, 0, 0)
+			self.cooldown:SetHideCountdownNumbers(self.config.disableCountDownNumbers)
 			self.cooldown.currentCooldownType = COOLDOWN_TYPE_NORMAL
-			UpdateCooldownNumberHidden(self)
 		end
 
 		if hasCooldown then

@@ -65,19 +65,19 @@ P.general = {
 		showTooltip = true
 	},
 	fonts = {
-		cooldown = { enable = true, font = 'Expressway', size = 20, outline = 'SHADOWOUTLINE' },
-		errortext = { enable = true, font = 'Expressway', size = 18, outline = 'SHADOW' },
-		worldzone = { enable = false, font = 'Expressway', size = 26, outline = 'OUTLINE' },
-		worldsubzone = { enable = false, font = 'Expressway', size = 24, outline = 'OUTLINE' },
-		pvpzone = { enable = false, font = 'Expressway', size = 26, outline = 'OUTLINE' },
-		pvpsubzone = { enable = false, font = 'Expressway', size = 24, outline = 'OUTLINE' },
-		objective = { enable = false, font = 'Expressway', size = 14, outline = 'SHADOW' },
-		mailbody = { enable = false, font = 'Expressway', size = 14, outline = 'SHADOW' },
-		questtitle = { enable = false, font = 'Expressway', size = 18, outline = 'NONE' },
-		questtext = { enable = false, font = 'Expressway', size = 14, outline = 'NONE' },
-		questsmall = { enable = false, font = 'Expressway', size = 13, outline = 'NONE' },
-		talkingtitle = { enable = false, font = 'Expressway', size = 20, outline = 'SHADOW' },
-		talkingtext = { enable = false, font = 'Expressway', size = 18, outline = 'SHADOW' }
+		cooldown = { enable = true, font = 'PT Sans Narrow', size = 20, outline = 'SHADOWOUTLINE' },
+		errortext = { enable = true, font = 'PT Sans Narrow', size = 18, outline = 'SHADOW' },
+		worldzone = { enable = false, font = 'PT Sans Narrow', size = 26, outline = 'OUTLINE' },
+		worldsubzone = { enable = false, font = 'PT Sans Narrow', size = 24, outline = 'OUTLINE' },
+		pvpzone = { enable = false, font = 'PT Sans Narrow', size = 26, outline = 'OUTLINE' },
+		pvpsubzone = { enable = false, font = 'PT Sans Narrow', size = 24, outline = 'OUTLINE' },
+		objective = { enable = false, font = 'PT Sans Narrow', size = 14, outline = 'SHADOW' },
+		mailbody = { enable = false, font = 'PT Sans Narrow', size = 14, outline = 'SHADOW' },
+		questtitle = { enable = false, font = 'PT Sans Narrow', size = 18, outline = 'NONE' },
+		questtext = { enable = false, font = 'PT Sans Narrow', size = 14, outline = 'NONE' },
+		questsmall = { enable = false, font = 'PT Sans Narrow', size = 13, outline = 'NONE' },
+		talkingtitle = { enable = false, font = 'PT Sans Narrow', size = 20, outline = 'SHADOW' },
+		talkingtext = { enable = false, font = 'PT Sans Narrow', size = 18, outline = 'SHADOW' }
 	},
 	classColors = {
 		HUNTER = { b = 0.44, g = 0.82, r = 0.66 },
@@ -159,10 +159,10 @@ P.general = {
 		locationText = 'MOUSEOVER',
 		locationFontSize = 14,
 		locationFontOutline = 'OUTLINE',
-		locationFont = 'Expressway',
+		locationFont = 'PT Sans Narrow',
 		timeFontSize = 14,
 		timeFontOutline = 'OUTLINE',
-		timeFont = 'Expressway',
+		timeFont = 'PT Sans Narrow',
 		resetZoom = {
 			enable = false,
 			time = 3,
@@ -229,7 +229,7 @@ P.general = {
 		statusBarColor = { r = 0, g = .4, b = 1 },
 		statusBarTexture = 'ElvUI Norm',
 		style = 'halfbar',
-		nameFont = 'Expressway',
+		nameFont = 'PT Sans Narrow',
 		nameFontSize = 12,
 		nameFontOutline = 'OUTLINE',
 	},
@@ -244,7 +244,7 @@ P.general = {
 	addonCompartment = {
 		size = 18,
 		hide = false,
-		font = 'Expressway',
+		font = 'PT Sans Narrow',
 		fontSize = 13,
 		fontOutline = 'SHADOW',
 		frameStrata = 'MEDIUM',
@@ -281,7 +281,7 @@ P.general = {
 		position = 'BOTTOMRIGHT',
 		xOffset = -2,
 		yOffset = 2,
-		font = 'Expressway',
+		font = 'PT Sans Narrow',
 		fontSize = 11,
 		fontOutline = 'OUTLINE',
 		frameStrata = 'MEDIUM',
@@ -291,7 +291,7 @@ P.general = {
 		itemQuality = true,
 		itemLevel = true,
 		itemLevelThreshold = 1,
-		itemLevelFont = 'Homespun',
+		itemLevelFont = 'PT Sans Narrow',
 		itemLevelFontSize = 10,
 		itemLevelFontOutline = 'MONOCHROMEOUTLINE',
 		itemLevelCustomColorEnable = false,
@@ -299,7 +299,7 @@ P.general = {
 		itemLevelPosition = 'BOTTOMRIGHT',
 		itemLevelxOffset = 0,
 		itemLevelyOffset = 2,
-		countFont = 'Homespun',
+		countFont = 'PT Sans Narrow',
 		countFontSize = 10,
 		countFontOutline = 'MONOCHROMEOUTLINE',
 		countFontColor = { r = 1, g = 1, b = 1 },
@@ -310,21 +310,21 @@ P.general = {
 	cooldownManager = {
 		swipeColorSpell = { r = 0, g = 0, b = 0, a = 0.6 },
 		swipeColorAura = { r = 0, g = 1, b = 0.9, a = 0.6 },
-		nameFont = 'Expressway',
+		nameFont = 'PT Sans Narrow',
 		nameFontSize = 14,
 		nameFontOutline = 'OUTLINE',
 		nameFontColor = { r = 1, g = 1, b = 1 },
 		namePosition = 'LEFT',
 		namexOffset = 4,
 		nameyOffset = 0,
-		durationFont = 'Expressway',
+		durationFont = 'PT Sans Narrow',
 		durationFontSize = 14,
 		durationFontOutline = 'OUTLINE',
 		durationFontColor = { r = 1, g = 1, b = 1 },
 		durationPosition = 'RIGHT',
 		durationxOffset = -3,
 		durationyOffset = 0,
-		countFont = 'Expressway',
+		countFont = 'PT Sans Narrow',
 		countFontSize = 11,
 		countFontOutline = 'OUTLINE',
 		countFontColor = { r = 1, g = 1, b = 1 },
@@ -436,7 +436,7 @@ P.bags = {
 	ignoredItems = {},
 	itemLevel = true,
 	itemLevelThreshold = 1,
-	itemLevelFont = 'Homespun',
+	itemLevelFont = 'PT Sans Narrow',
 	itemLevelFontSize = 10,
 	itemLevelFontOutline = 'MONOCHROMEOUTLINE',
 	itemLevelCustomColorEnable = false,
@@ -445,11 +445,11 @@ P.bags = {
 	itemLevelxOffset = 0,
 	itemLevelyOffset = 2,
 	itemInfo = true,
-	itemInfoFont = 'Homespun',
+	itemInfoFont = 'PT Sans Narrow',
 	itemInfoFontSize = 10,
 	itemInfoFontOutline = 'MONOCHROMEOUTLINE',
 	itemInfoColor = { r = 0, g = .75, b = .98 },
-	countFont = 'Homespun',
+	countFont = 'PT Sans Narrow',
 	countFontSize = 10,
 	countFontOutline = 'MONOCHROMEOUTLINE',
 	countFontColor = {r = 1, g = 1, b = 1},
@@ -1151,12 +1151,12 @@ local TopAuras = {
 	barShow = false,
 	barSpacing = 2,
 	barTexture = 'ElvUI Norm',
-	countFont = 'Homespun',
+	countFont = 'PT Sans Narrow',
 	countFontOutline = 'MONOCHROMEOUTLINE',
 	countFontSize = 10,
 	countXOffset = 0,
 	countYOffset = 0,
-	timeFont = 'Homespun',
+	timeFont = 'PT Sans Narrow',
 	timeFontOutline = 'MONOCHROMEOUTLINE',
 	timeFontSize = 10,
 	timeXOffset = 0,
@@ -1818,7 +1818,7 @@ UF_PrivateAuras.duration.enable = false
 --UnitFrame
 P.unitframe = {
 	statusbar = 'ElvUI Norm',
-	font = 'Homespun',
+	font = 'PT Sans Narrow',
 	fontSize = 10,
 	fontOutline = 'MONOCHROMEOUTLINE',
 	debuffHighlighting = 'FILL',
@@ -2744,7 +2744,7 @@ P.actionbar = {
 	targetReticleColor = { r = 0.2, g = 1.0, b = 0.2 },
 	flashAnimation = false,
 	flyoutSize = 32, -- match buttonsize default, blizz default is 28
-	font = 'Homespun',
+	font = 'PT Sans Narrow',
 	fontColor = { r = 1, g = 1, b = 1 },
 	fontOutline = 'MONOCHROMEOUTLINE',
 	fontSize = 10,
@@ -2892,7 +2892,7 @@ local AB_Bar = {
 	flyoutDirection = 'AUTOMATIC',
 	paging = {},
 	countColor = { r = 1, g = 1, b = 1 },
-	countFont = 'Homespun',
+	countFont = 'PT Sans Narrow',
 	countFontOutline = 'MONOCHROMEOUTLINE',
 	countFontSize = 10,
 	countFontXOffset = 0,
@@ -2900,7 +2900,7 @@ local AB_Bar = {
 	counttext = true,
 	countTextPosition = 'BOTTOMRIGHT',
 	hotkeyColor = { r = 1, g = 1, b = 1 },
-	hotkeyFont = 'Homespun',
+	hotkeyFont = 'PT Sans Narrow',
 	hotkeyFontOutline = 'MONOCHROMEOUTLINE',
 	hotkeyFontSize = 10,
 	hotkeytext = true,
@@ -2909,7 +2909,7 @@ local AB_Bar = {
 	hotkeyTextYOffset = -3,
 	macroColor = { r = 1, g = 1, b = 1 },
 	macrotext = false,
-	macroFont = 'Homespun',
+	macroFont = 'PT Sans Narrow',
 	macroFontOutline = 'MONOCHROMEOUTLINE',
 	macroFontSize = 10,
 	macroTextPosition = 'TOPRIGHT',
@@ -2952,7 +2952,7 @@ for _, bar in next, {'barPet', 'stanceBar', 'vehicleExitButton', 'extraActionBut
 
 	if bar == 'barPet' then
 		db.countColor = { r = 1, g = 1, b = 1 }
-		db.countFont = 'Homespun'
+		db.countFont = 'PT Sans Narrow'
 		db.countFontOutline = 'MONOCHROMEOUTLINE'
 		db.countFontSize = 10
 		db.countFontXOffset = 0
@@ -2964,7 +2964,7 @@ for _, bar in next, {'barPet', 'stanceBar', 'vehicleExitButton', 'extraActionBut
 
 	if bar ~= 'zoneActionButton' then
 		db.hotkeyColor = { r = 1, g = 1, b = 1 }
-		db.hotkeyFont = 'Homespun'
+		db.hotkeyFont = 'PT Sans Narrow'
 		db.hotkeyFontOutline = 'MONOCHROMEOUTLINE'
 		db.hotkeyFontSize = 10
 		db.hotkeytext = true
