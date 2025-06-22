@@ -1,7 +1,7 @@
 -- License: LICENSE.txt
 
 local MAJOR_VERSION = "LibActionButton-1.0-ElvUI"
-local MINOR_VERSION = 62 -- the real minor version is 121
+local MINOR_VERSION = 64 -- the real minor version is 124
 
 local LibStub = LibStub
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
@@ -601,39 +601,11 @@ function WrapOnClick(button, unwrapheader)
 	]])
 end
 
-do
-	local reset
-	function Generic:ToggleOnDownForPickup(pre)
-		if not WoWRetail then return end
-
-		-- this is bugged: some talent spells will always cast on down
-		-- even when this code does not execute and keydown is disabled.
-		if pre and GetCVarBool("ActionButtonUseKeyDown") then
-			SetCVar("ActionButtonUseKeyDown", "0")
-			reset = true
-		elseif reset then
-			SetCVar("ActionButtonUseKeyDown", "1")
-			reset = nil
-		end
-	end
-end
-
 local function GetAuraData(unitToken, index, filter)
 	if WoWRetail then
 		return UnpackAuraData(GetAuraDataByIndex(unitToken, index, filter))
 	else
 		return UnitAura(unitToken, index, filter)
-	end
-end
-
--- update click handling ~Simpy
-local function UpdateRegisterClicks(self, down)
-	if self.isFlyoutButton then -- the bar button
-		self:RegisterForClicks('AnyUp')
-	elseif self.isFlyout or WoWRetail then -- the flyout spell
-		self:RegisterForClicks('AnyDown', 'AnyUp')
-	else
-		self:RegisterForClicks(self.config.clickOnDown and not down and 'AnyDown' or 'AnyUp')
 	end
 end
 
@@ -652,17 +624,6 @@ function Generic:OnButtonEvent(event, key, down, spellID)
 		self:UnregisterEvent(event)
 
 		UpdateFlyout(self)
-	elseif self.config.clickOnDown and GetCVarBool('lockActionBars') then -- non-retail only, retail uses ToggleOnDownForPickup method
-		if event == 'MODIFIER_STATE_CHANGED' then
-			if GetModifiedClick('PICKUPACTION') == strsub(key, 2) then
-				UpdateRegisterClicks(self, down == 1)
-			end
-		elseif event == 'OnEnter' then
-			local action = GetModifiedClick('PICKUPACTION')
-			UpdateRegisterClicks(self, action == 'SHIFT' and IsShiftKeyDown() or action == 'ALT' and IsAltKeyDown() or action == 'CTRL' and IsControlKeyDown())
-		elseif event == 'OnLeave' then
-			UpdateRegisterClicks(self)
-		end
 	end
 end
 
@@ -1448,6 +1409,10 @@ function Generic:UpdateConfig(config)
 	UpdateHotkeys(self)
 	UpdateGrid(self)
 	Update(self, 'UpdateConfig')
+
+	if not WoWRetail then
+		self:RegisterForClicks(self.config.clickOnDown and "AnyDown" or "AnyUp")
+	end
 end
 
 -----------------------------------------------------------
@@ -2105,8 +2070,6 @@ function Update(self, which)
 	UpdateNewAction(self)
 
 	UpdateSpellHighlight(self)
-
-	UpdateRegisterClicks(self)
 
 	if GameTooltip_GetOwnerForbidden() == self then
 		UpdateTooltip(self)
