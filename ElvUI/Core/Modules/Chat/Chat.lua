@@ -1499,6 +1499,32 @@ function CH:ReplaceProtocol(arg1, arg2)
 end
 
 function CH:FindURL(event, msg, author, ...)
+	--Hursev
+	-- E:Print("1 " .. author)
+	local okInCombat = true; 
+	if (event == "CHAT_MSG_GUILD")  then
+		okInCombat = false;
+	end
+
+	local soundFile = 'None';
+	local channel = "Master";
+	if (event == "CHAT_MSG_WHISPER" or event == "CHAT_MSG_BN_WHISPER") and (CH.db.whisperSound ~= 'None') and not CH.SoundTimer then
+		soundFile = CH.db.whisperSound;
+	end
+	if (event == "CHAT_MSG_COMMUNITIES_CHANNEL") then soundFile = "aChime.ogg"; end
+	if (event == "CHAT_MSG_PARTY") then soundFile = "aInfo.ogg"; end
+	if (event == "CHAT_MSG_PARTY_LEADER") then soundFile = "aInfo.ogg"; end
+	if (event == "CHAT_MSG_RAID") then soundFile = "aIM.ogg"; end
+	if (event == "CHAT_MSG_GUILD") then soundFile = "aIM.ogg"; end	
+	if (event == "CHAT_MSG_RAID_WARNING") then soundFile = "aInfo.ogg"; end
+	if (event == "CHAT_MSG_INSTANCE_CHAT") then soundFile = "aInfo.ogg"; end
+
+	if (event == "CHAT_MSG_RAID_LEADER") then soundFile = "aHeart.ogg"; end
+	if (event == "CHAT_MSG_INSTANCE_CHAT_LEADER") then soundFile = "aHeart.ogg"; end
+	-- E:Print("event: " ..  event .. " sound: " .. soundFile .. " channel: " .. channel);
+	-- End Hursev
+
+
 	if not CH.db.url then
 		msg = CH:CheckKeyword(msg, author)
 		msg = CH:GetSmileyReplacementText(msg)
@@ -1530,6 +1556,13 @@ function CH:FindURL(event, msg, author, ...)
 
 	msg = CH:CheckKeyword(msg, author)
 	msg = CH:GetSmileyReplacementText(msg)
+
+	--Hursev
+	if (not CH.SoundTimer) and (soundFile ~= 'None') then
+		PlaySoundFile(LSM:Fetch("sound", soundFile), channel)
+		CH.SoundTimer = E:Delay(1, CH.ThrottleSound)
+	end
+	--End Hursev
 
 	return false, msg, author, ...
 end
@@ -2570,6 +2603,11 @@ end
 local protectLinks = {}
 function CH:CheckKeyword(message, author)
 	local letInCombat = not CH.db.noAlertInCombat or not InCombatLockdown()
+	-- E:Print("1")
+	-- [Hursev] Removed 'and author ~= PLAYER_NAME', so I can test the sounds by myself
+	-- Old: local letSound = not CH.SoundTimer and (CH.db.keywordSound ~= 'None' and author ~= PLAYER_NAME) and letInCombat
+	-- New: local letSound = not CH.SoundTimer and (CH.db.keywordSound ~= 'None') and letInCombat
+	-- Original:
 	local letSound = not CH.SoundTimer and (CH.db.keywordSound ~= 'None' and author ~= PLAYER_NAME) and letInCombat
 
 	for hyperLink in gmatch(message, '|c%x-|H.-|h.-|h|r') do

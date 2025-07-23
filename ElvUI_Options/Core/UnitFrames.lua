@@ -65,8 +65,8 @@ local CUSTOMTEXT_CONFIGS, filters = {}, {}
 local carryFilterFrom, carryFilterTo
 
 local roles = { TANK = L["Tank"] , HEALER = L["Healer"], DAMAGER = L["DPS"] }
-local offsetShort = { softMin = -100, min = -1000, softMax = 100, max = 1000, step = 1 }
-local offsetLong = { softMin = -300, min = -1000, softMax = 300, max = 1000, step = 1 }
+local offsetShort = { softMin = -100, min = -2000, softMax = 100, max = 2000, step = 1 }
+local offsetLong = { softMin = -300, min = -2000, softMax = 300, max = 2000, step = 1 }
 local spacingNormal = { min = -5, softMax = 50, max = 100, step = 1 }
 local spacingLong = { min = -5, softMax = 100, max = 500, step = 1 }
 
@@ -132,13 +132,13 @@ local function GetOptionsTable_AuraBars(updateFunc, groupName)
 	config.args.generalGroup.args.anchorPoint = ACH:Select(L["Anchor Point"], L["What point to anchor to the frame you set to attach to."], 6, { ABOVE = L["Above"], BELOW = L["Below"] })
 	config.args.generalGroup.args.attachTo = ACH:Select(L["Attach To"], L["The object you want to attach to."], 7, { FRAME = L["Frame"], DEBUFFS = L["Debuffs"], BUFFS = L["Buffs"], DETACHED = L["Detach From Frame"] })
 	config.args.generalGroup.args.height = ACH:Range(L["Height"], nil, 8, { min = 5, max = 40, step = 1 })
-	config.args.generalGroup.args.detachedWidth = ACH:Range(L["Detached Width"], nil, 9, { min = 30, max = 1000, step = 1 }, nil, nil, nil, nil, function() return E.db.unitframe.units[groupName].aurabar.attachTo ~= 'DETACHED' end)
+	config.args.generalGroup.args.detachedWidth = ACH:Range(L["Detached Width"], nil, 9, { min = 30, max = 2000, step = 1 }, nil, nil, nil, nil, function() return E.db.unitframe.units[groupName].aurabar.attachTo ~= 'DETACHED' end)
 	config.args.generalGroup.args.maxBars = ACH:Range(L["Max Bars"], nil, 10, { min = 1, max = 40, step = 1 })
 	config.args.generalGroup.args.sortMethod = ACH:Select(L["Sort By"], L["Method to sort by."], 11, { TIME_REMAINING = L["Time Remaining"], DURATION = L["Duration"], NAME = L["Name"], INDEX = L["Index"], PLAYER = L["Player"] })
 	config.args.generalGroup.args.sortDirection = ACH:Select(L["Sort Direction"], L["Ascending or Descending order."], 12, { ASCENDING = L["Ascending"], DESCENDING = L["Descending"] })
 	config.args.generalGroup.args.friendlyAuraType = ACH:Select(L["Friendly Aura Type"], L["Set the type of auras to show when a unit is friendly."], 13, { HARMFUL = L["Debuffs"], HELPFUL = L["Buffs"] })
 	config.args.generalGroup.args.enemyAuraType = ACH:Select(L["Enemy Aura Type"], L["Set the type of auras to show when a unit is a foe."], 14, { HARMFUL = L["Debuffs"], HELPFUL = L["Buffs"] }, nil, nil, nil, nil, nil, groupName == 'player')
-	config.args.generalGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 15, { min = 0, max = 100, step = 1 }, nil, nil, nil, nil, function() return E.db.unitframe.units[groupName].aurabar.attachTo == 'DETACHED' end)
+	config.args.generalGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 15, { min = 0, max = 2000, step = 1 }, nil, nil, nil, nil, function() return E.db.unitframe.units[groupName].aurabar.attachTo == 'DETACHED' end)
 	config.args.generalGroup.args.spacing = ACH:Range(L["Spacing"], nil, 16, spacingNormal)
 	config.args.generalGroup.args.smoothbars = ACH:Toggle(L["Smooth Bars"], L["Bars will transition smoothly."], 17)
 
@@ -395,8 +395,8 @@ local function GetOptionsTable_Castbar(updateFunc, groupName, numUnits)
 	config.args.textGroup.args.textSettings.args.font = ACH:SharedMediaFont(L["Font"], nil, 2)
 	config.args.textGroup.args.textSettings.args.fontSize = ACH:Range(L["Font Size"], nil, 3, C.Values.FontSize)
 	config.args.textGroup.args.textSettings.args.fontStyle = ACH:FontFlags(L["Font Outline"], L["Set the font outline."], 4)
-	config.args.textGroup.args.textSettings.args.xOffsetText = ACH:Range(L["X-Offset"], nil, 5, { min = -500, max = 500, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
-	config.args.textGroup.args.textSettings.args.yOffsetText = ACH:Range(L["Y-Offset"], nil, 6, { min = -500, max = 500, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
+	config.args.textGroup.args.textSettings.args.xOffsetText = ACH:Range(L["X-Offset"], nil, 5, { min = -2000, max = 2000, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
+	config.args.textGroup.args.textSettings.args.yOffsetText = ACH:Range(L["Y-Offset"], nil, 6, { min = -2000, max = 2000, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
 
 	config.args.textGroup.args.timeSettings = ACH:Group(L["Time Options"], nil, 4, nil, function(info) return E.db.unitframe.units[groupName].castbar.customTimeFont[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar.customTimeFont[info[#info]] = value updateFunc(UF, groupName, numUnits) end, function() return not E.db.unitframe.units[groupName].castbar.customTimeFont.enable end)
 	config.args.textGroup.args.timeSettings.inline = true
@@ -404,8 +404,8 @@ local function GetOptionsTable_Castbar(updateFunc, groupName, numUnits)
 	config.args.textGroup.args.timeSettings.args.font = ACH:SharedMediaFont(L["Font"], nil, 2)
 	config.args.textGroup.args.timeSettings.args.fontSize = ACH:Range(L["Font Size"], nil, 3, C.Values.FontSize)
 	config.args.textGroup.args.timeSettings.args.fontStyle = ACH:FontFlags(L["Font Outline"], L["Set the font outline."], 4)
-	config.args.textGroup.args.timeSettings.args.xOffsetTime = ACH:Range(L["X-Offset"], nil, 5, { min = -500, max = 500, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
-	config.args.textGroup.args.timeSettings.args.yOffsetTime = ACH:Range(L["Y-Offset"], nil, 6, { min = -500, max = 500, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
+	config.args.textGroup.args.timeSettings.args.xOffsetTime = ACH:Range(L["X-Offset"], nil, 5, { min = -2000, max = 2000, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
+	config.args.textGroup.args.timeSettings.args.yOffsetTime = ACH:Range(L["Y-Offset"], nil, 6, { min = -2000, max = 2000, step = 1 }, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end, false)
 
 	config.args.iconSettings = ACH:Group(L["Icon"], nil, 17, nil, function(info) return E.db.unitframe.units[groupName].castbar[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar[info[#info]] = value updateFunc(UF, groupName, numUnits) end)
 	config.args.iconSettings.args.icon = ACH:Toggle(L["Enable"], nil, 1, nil, nil, nil, nil, nil, false)
@@ -413,8 +413,8 @@ local function GetOptionsTable_Castbar(updateFunc, groupName, numUnits)
 	config.args.iconSettings.args.iconSize = ACH:Range(L["Icon Size"], L["This dictates the size of the icon when it is not attached to the castbar."], 3, { min = 8, max = 150, step = 1 })
 	config.args.iconSettings.args.iconAttachedTo = ACH:Select(L["Attach To"], L["The object you want to attach to."], 4, { Frame = L["Frame"], Castbar = L["Cast Bar"] })
 	config.args.iconSettings.args.iconPosition = ACH:Select(L["Position"], nil, 5, C.Values.AllPoints)
-	config.args.iconSettings.args.iconXOffset = ACH:Range(L["X-Offset"], nil, 4, { min = -500, max = 500, step = 1 })
-	config.args.iconSettings.args.iconYOffset = ACH:Range(L["Y-Offset"], nil, 4, { min = -500, max = 500, step = 1 })
+	config.args.iconSettings.args.iconXOffset = ACH:Range(L["X-Offset"], nil, 4, { min = -2000, max = 2000, step = 1 })
+	config.args.iconSettings.args.iconYOffset = ACH:Range(L["Y-Offset"], nil, 4, { min = -2000, max = 2000, step = 1 })
 
 	config.args.strataAndLevel = GetOptionsTable_StrataAndFrameLevel(updateFunc, groupName, numUnits, 'castbar')
 	config.args.strataAndLevel.inline = nil
@@ -450,8 +450,8 @@ local function GetOptionsTable_Castbar(updateFunc, groupName, numUnits)
 	if groupName == 'party' or groupName == 'arena' or groupName == 'boss' then
 		config.args.generalGroup.args.positionsGroup = ACH:Group(L["Position"], nil, 19, nil, function(info) return E.db.unitframe.units[groupName].castbar.positionsGroup[info[#info]] end, function(info, value) E.db.unitframe.units[groupName].castbar.positionsGroup[info[#info]] = value updateFunc(UF, groupName, numUnits) end)
 		config.args.generalGroup.args.positionsGroup.args.anchorPoint = ACH:Select(L["Position"], nil, 3, C.Values.AllPoints)
-		config.args.generalGroup.args.positionsGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 4, { min = -500, max = 500, step = 1 })
-		config.args.generalGroup.args.positionsGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 5, { min = -500, max = 500, step = 1 })
+		config.args.generalGroup.args.positionsGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 4, { min = -2000, max = 2000, step = 1 })
+		config.args.generalGroup.args.positionsGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 5, { min = -2000, max = 2000, step = 1 })
 		config.args.generalGroup.args.positionsGroup.inline = true
 	end
 
@@ -529,8 +529,8 @@ local function CreateCustomTextGroup(unit, objectName)
 	config.args.size = ACH:Range(L["Font Size"], nil, 4, { min = 8, max = 128, step = 1 }) -- custom for people that use icons
 	config.args.fontOutline = ACH:FontFlags(L["Font Outline"], L["Set the font outline."], 5)
 	config.args.justifyH = ACH:Select(L["JustifyH"], L["Sets the font instance's horizontal text alignment style."], 6, { CENTER = L["Center"], LEFT = L["Left"], RIGHT = L["Right"] })
-	config.args.xOffset = ACH:Range(L["X-Offset"], nil, 7, { min = -400, max = 400, step = 1 })
-	config.args.yOffset = ACH:Range(L["Y-Offset"], nil, 8, { min = -400, max = 400, step = 1 })
+	config.args.xOffset = ACH:Range(L["X-Offset"], nil, 7, { min = -2000, max = 2000, step = 1 })
+	config.args.yOffset = ACH:Range(L["Y-Offset"], nil, 8, { min = -2000, max = 2000, step = 1 })
 	config.args.attachTextTo = ACH:Select(L["Attach Text To"], L["The object you want to attach to."], 9, attachToValues)
 	config.args.text_format = ACH:Input(L["Text Format"], L["Controls the text displayed. Tags are available in the Available Tags section of the config."], 100, nil, 'full')
 
@@ -742,8 +742,8 @@ local function GetOptionsTable_Health(isGroupFrame, updateFunc, groupName, numUn
 	config.args.textGroup = ACH:Group(L["Text"], nil, 10)
 	config.args.textGroup.inline = true
 	config.args.textGroup.args.position = ACH:Select(L["Position"], nil, 1, C.Values.AllPoints)
-	config.args.textGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 2, { min = -400, max = 400, step = 1 })
-	config.args.textGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 3, { min = -400, max = 400, step = 1 })
+	config.args.textGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 2, { min = -2000, max = 2000, step = 1 })
+	config.args.textGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 3, { min = -2000, max = 2000, step = 1 })
 	config.args.textGroup.args.text_format = ACH:Input(L["Text Format"], L["Controls the text displayed. Tags are available in the Available Tags section of the config."], 4, nil, 'full')
 
 	if isGroupFrame then
@@ -840,15 +840,15 @@ local function GetOptionsTable_Power(hasDetatchOption, updateFunc, groupName, nu
 	if hasDetatchOption then
 		config.args.generalGroup.args.detachGroup = ACH:Group(L["Detach From Frame"], nil, 40)
 		config.args.generalGroup.args.detachGroup.args.detachFromFrame = ACH:Toggle(L["Detach From Frame"], nil, 10)
-		config.args.generalGroup.args.detachGroup.args.detachedWidth = ACH:Range(L["Detached Width"], nil, 12, { min = 30, max = 1000, step = 1 }, nil, nil, nil, nil, function() return not E.db.unitframe.units[groupName].power.detachFromFrame end)
+		config.args.generalGroup.args.detachGroup.args.detachedWidth = ACH:Range(L["Detached Width"], nil, 12, { min = 30, max = 2000, step = 1 }, nil, nil, nil, nil, function() return not E.db.unitframe.units[groupName].power.detachFromFrame end)
 		config.args.generalGroup.args.detachGroup.args.parent = ACH:Select(L["Parent"], L["Choose UIPARENT to prevent it from hiding with the unitframe."], 13, { FRAME = 'FRAME', UIPARENT = 'UIPARENT' }, nil, nil, nil, nil, nil, function() return not E.db.unitframe.units[groupName].power.detachFromFrame end)
 		config.args.generalGroup.args.detachGroup.inline = true
 	end
 
 	config.args.textGroup = ACH:Group(L["Text"], nil, 50)
 	config.args.textGroup.args.position = ACH:Select(L["Position"], nil, 1, C.Values.AllPoints)
-	config.args.textGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 2, { min = -400, max = 400, step = 1 })
-	config.args.textGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 3, { min = -400, max = 400, step = 1 })
+	config.args.textGroup.args.xOffset = ACH:Range(L["X-Offset"], nil, 2, { min = -2000, max = 2000, step = 1 })
+	config.args.textGroup.args.yOffset = ACH:Range(L["Y-Offset"], nil, 3, { min = -2000, max = 2000, step = 1 })
 	config.args.textGroup.args.text_format = ACH:Input(L["Text Format"], L["Controls the text displayed. Tags are available in the Available Tags section of the config."], 4, nil, 'full')
 
 	config.args.strataAndLevel = GetOptionsTable_StrataAndFrameLevel(updateFunc, groupName, numUnits, 'power')
@@ -1041,7 +1041,7 @@ local function GetOptionsTable_ClassBar(updateFunc, groupName, numUnits)
 
 		config.args.detachGroup = ACH:Group(L["Detach From Frame"], nil, 30, nil, function(info) return E.db.unitframe.units.player.classbar[info[#info]] end, function(info, value) E.db.unitframe.units.player.classbar[info[#info]] = value UF:CreateAndUpdateUF('player') end, nil, groupName ~= 'player')
 		config.args.detachGroup.args.detachFromFrame = ACH:Toggle(L["Enable"], nil, 1)
-		config.args.detachGroup.args.detachedWidth = ACH:Range(L["Detached Width"], nil, 2, { min = 3, max = 1000, step = 1 }, nil, nil, nil, nil, function() return not E.db.unitframe.units.player.classbar.detachFromFrame end)
+		config.args.detachGroup.args.detachedWidth = ACH:Range(L["Detached Width"], nil, 2, { min = 3, max = 2000, step = 1 }, nil, nil, nil, nil, function() return not E.db.unitframe.units.player.classbar.detachFromFrame end)
 		config.args.detachGroup.args.orientation = ACH:Select(L["Frame Orientation"], nil, 3, { HORIZONTAL = L["Horizontal"], VERTICAL = L["Vertical"] }, nil, nil, nil, nil, function() return not E.db.unitframe.units.player.classbar.detachFromFrame end)
 		config.args.detachGroup.args.verticalOrientation = ACH:Toggle(L["Vertical Fill Direction"], nil, 4, nil, nil, nil, nil, nil, nil, function() return not E.db.unitframe.units.player.classbar.detachFromFrame end)
 		config.args.detachGroup.args.spacing = ACH:Range(L["Spacing"], nil, 5, spacingNormal, nil, nil, nil, nil, function() return not E.db.unitframe.units.player.classbar.detachFromFrame end)
