@@ -4,10 +4,12 @@ on:
   push:
     tags:
       - "v*"
-
+    branches:
+      - "main"
+    
 jobs:
   release:
-    name: Publish release to CDN
+    name: Publish release
     runs-on: ubuntu-22.04
     env:
       DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
@@ -23,9 +25,26 @@ jobs:
         uses: BigWigsMods/packager@v2
         with:
           args: -n "{package-name}-{project-version}"
+#      - name: Get package name
+#        run: |
+#          echo "PACKAGE=$(find .release -type f -name *.zip -printf "%f\n")" >> $GITHUB_ENV
+
       - name: Get package name
         run: |
-          echo "PACKAGE=$(find .release -type f -name *.zip -printf "%f\n")" >> $GITHUB_ENV
-      - name: Publish package
-        run: |
-          curl https://api.tukui.org/v1/upload/$PACKAGE --upload-file .release/$PACKAGE -H "X-Tukui-Key: $DEPLOY_KEY" -H "Content-Type: application/zip"
+          PACKAGE=$(find .release -type f -name *.zip -printf "%f\n")
+          echo "PACKAGE_NAME=$PACKAGE" >> $GITHUB_ENV
+      # Add this step to create a GitHub Release and upload the asset
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') # Only create a release when a tag is pushed
+        with:
+          files: .release/${{ env.PACKAGE_NAME }} # Path to the generated zip file
+          # The tag_name is automatically picked up from github.ref when triggered by a tag
+          # You can customize the release name and body if needed
+          # name: My Awesome Release ${{ github.ref_name }}
+          # body: |
+          #   Release notes for version ${{ github.ref_name }}
+
+#      - name: Publish package
+#        run: |
+#          curl https://api.tukui.org/v1/upload/$PACKAGE --upload-file .release/$PACKAGE -H "X-Tukui-Key: $DEPLOY_KEY" -H "Content-Type: application/zip"
