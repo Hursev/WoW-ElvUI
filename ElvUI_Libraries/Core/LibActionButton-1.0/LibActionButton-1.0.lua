@@ -1,7 +1,7 @@
 -- License: LICENSE.txt
 
 local MAJOR_VERSION = "LibActionButton-1.0-ElvUI"
-local MINOR_VERSION = 65 -- the real minor version is 124
+local MINOR_VERSION = 65 -- the real minor version is 126
 
 local LibStub = LibStub
 if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
@@ -25,6 +25,8 @@ local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
+
+local DisableOverlayGlow = WoWClassic or WoWBCC or WoWWrath
 
 local GetSpellInfo
 do	-- backwards compatibility for GetSpellInfo
@@ -76,6 +78,7 @@ local GameFontHighlightSmallOutline = GameFontHighlightSmallOutline
 local NumberFontNormalSmallGray = NumberFontNormalSmallGray
 local NumberFontNormal = NumberFontNormal
 
+local IsSpellOverlayed = (C_SpellActivationOverlay and C_SpellActivationOverlay.IsSpellOverlayed) or IsSpellOverlayed
 local GetAuraDataByIndex = C_UnitAuras and C_UnitAuras.GetAuraDataByIndex
 local UnpackAuraData = AuraUtil and AuraUtil.UnpackAuraData
 local UnitAura = UnitAura
@@ -1948,6 +1951,9 @@ function Generic:UpdateAction(force)
 
 		self._state_action = action
 
+		-- set action attribute for action buttons
+		self.action = self._state_type == "action" and action or nil
+
 		Update(self, 'UpdateAction')
 	end
 end
@@ -2922,7 +2928,7 @@ Custom.RunCustom               = function(self, unit, button) return self._state
 Custom.GetPassiveCooldownSpellID = function(self) return nil end
 
 --- WoW Classic overrides
-if not WoWRetail and not WoWMists then
+if DisableOverlayGlow then
 	UpdateOverlayGlow = function() end
 end
 

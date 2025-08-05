@@ -7,12 +7,14 @@ local UnitPower = UnitPower
 local UnitPowerMax = UnitPowerMax
 local UnitHasVehicleUI = UnitHasVehicleUI
 local GetShapeshiftForm = GetShapeshiftForm
-local GetSpecialization = C_SpecializationInfo.GetSpecialization or GetSpecialization
 local GetEclipseDirection = GetEclipseDirection
+
+local IsSpellInSpellBook = C_SpellBook.IsSpellInSpellBook or IsSpellKnownOrOverridesKnown
+local GetSpecialization = C_SpecializationInfo.GetSpecialization or GetSpecialization
 
 local SPEC_DRUID_BALANCE = _G.SPEC_DRUID_BALANCE or 1
 local POWERTYPE_BALANCE = Enum.PowerType.Balance
-local MOONKIN_FORM = 5
+local TREANT_GLYPH = 114282
 
 local function Update(self, event, unit, powerType)
 	if(self.unit ~= unit or (event == 'UNIT_POWER_FREQUENT' and powerType ~= 'BALANCE')) then return end
@@ -85,7 +87,8 @@ local function Visibility(self)
 	local shouldEnable
 
 	local form = GetShapeshiftForm()
-	if form == 0 or form == MOONKIN_FORM then
+	local treant = IsSpellInSpellBook(TREANT_GLYPH, nil, true)
+	if (form == 0) or (not treant and form == 5) or (treant and (form == 5 or form == 6)) then
 		shouldEnable = not UnitHasVehicleUI('player') and GetSpecialization() == SPEC_DRUID_BALANCE
 	end
 

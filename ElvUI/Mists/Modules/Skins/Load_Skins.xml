@@ -2,8 +2,8 @@
 	<Script file='Achievement.lua'/>
 	<Script file='AddonManager.lua'/>
 	<Script file='Alerts.lua'/>
-	<Script file='ArenaRegistrar.lua'/>
 	<Script file='Archaeology.lua'/>
+	<Script file='ArenaRegistrar.lua'/>
 	<Script file='AuctionHouse.lua'/>
 	<Script file='Bags.lua'/>
 	<Script file='Barber.lua'/>
@@ -23,6 +23,7 @@
 	<Script file='EventTrace.lua'/>
 	<Script file='Friends.lua'/>
 	<Script file='Gossip.lua'/>
+	<Script file='Guild.lua'/>
 	<Script file='GuildBank.lua'/>
 	<Script file='GuildControl.lua'/>
 	<Script file='GuildRegistrar.lua'/>

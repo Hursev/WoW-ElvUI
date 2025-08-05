@@ -262,6 +262,7 @@ do --this can save some main file locals
 			z['Player-4373-040E5AA9']	= itsSimpy -- Druid:	Puttietat
 			z['Player-4373-03E24528']	= itsSimpy -- Hunter:	Arieva
 			z['Player-4373-03351BC7']	= itsSimpy -- [Horde] DK:	Imsojelly
+			z['Player-4373-04115928']	= itsSimpy -- [Horde] Shaman:	Yumi
 			-- Repooc
 			z['Repooc-Atiesh']			= itsPooc -- [Alliance] Paladin
 		elseif E.Retail then
